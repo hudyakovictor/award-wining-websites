@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>M06 · Motion-система — 2026 Award-Winning Website</title>
+    <meta name="description" content="M06 · Motion-система: Длительности, кривые, хореография. Блоки 46–54. Артефакт: motion-tokens + timeline-библиотека проекта.">
+    <meta name="theme-color" content="#06070a">
+    <meta property="og:title" content="M06 · Motion-система">
+    <meta property="og:description" content="M06 · Motion-система: Длительности, кривые, хореография. Блоки 46–54. Артефакт: motion-tokens + timeline-библиотека проекта.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300..700&display=swap">
+
+    <link rel="stylesheet" href="../assets/css/tokens.css">
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../assets/css/motion.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+  </head>
+
+  <body data-section="M06">
+    <div class="grain" aria-hidden="true"></div>
+    <aside class="dock" data-dock data-dock-base="../" aria-label="Разделы курса"></aside>
+    <div class="progress" data-progress-bar aria-hidden="true"></div>
+
+    <header class="nav" data-nav>
+      <div class="shell nav__inner">
+        <a class="nav__logo" href="../index.html"><b>AW/26</b><span class="u-mono">курс</span></a>
+        <nav class="nav__meta" aria-label="Навигация">
+          <a class="u-mono" href="../index.html#sections">все разделы</a>
+          <a class="u-mono" href="#blocks">блоки 46–54</a>
+          <a class="u-mono" href="../index.html" data-magnetic="0.2">← на главную</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="lesson__hero shell">
+        <div class="split">
+          <div class="stack">
+            <p class="u-mono" data-reveal>раздел M06 · блоки 46–54</p>
+            <h1 class="lesson__title" data-reveal="fade" data-split>Motion-система</h1>
+            <p class="hero__lede" data-reveal>Длительности, кривые, хореография.</p>
+            <div class="cluster" data-reveal>
+              <a class="chip" href="#blocks" data-magnetic="0.3">к блокам</a>
+              <a class="chip" href="../index.html#sections">другие разделы</a>
+            </div>
+          </div>
+          <aside class="split__aside stack" data-reveal="fade">
+            <div class="artifact">
+              <p class="u-mono">артефакт раздела</p>
+              <p style="color:var(--fg-1)">motion-tokens + timeline-библиотека проекта</p>
+            </div>
+            <div class="artifact">
+              <p class="u-mono">прогресс</p>
+              <p style="color:var(--fg-0);font-family:var(--font-mono)"><span data-section-done>0</span> / 9 блоков</p>
+              <span class="modcard__bar"><i data-section-bar></i></span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section shell section--tight" id="blocks">
+        <div class="toolbar">
+          <div class="chips" data-chips role="group" aria-label="Фильтр по типу блока">
+            <button class="chip" type="button" data-filter-tag="all" aria-pressed="true">все</button>
+            <button class="chip" type="button" data-filter-tag="core" aria-pressed="false">теория</button>
+            <button class="chip" type="button" data-filter-tag="build" aria-pressed="false">практика</button>
+            <button class="chip" type="button" data-filter-tag="case" aria-pressed="false">кейс</button>
+            <button class="chip" type="button" data-filter-tag="qa" aria-pressed="false">чек-лист</button>
+          </div>
+          <p class="u-mono"><span data-filtered>9</span> / 9 блоков</p>
+        </div>
+
+        <ol class="blockrows">
+          <li class="blockrow" data-blockrow data-id="46" data-tag="core" data-done="false" data-reveal>
+            <span class="blockrow__num">46</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=46">Длительности</a>
+              <p class="blockrow__desc">150 / 300 / 600 / 900 мс: шкала --d-* и правило «короче = дороже».</p>
+            </div>
+            <span class="blockrow__tag">теория</span>
+            <button class="done" type="button" data-done-toggle="46" aria-pressed="false" aria-label="Отметить блок 46 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=46">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="47" data-tag="build" data-done="false" data-reveal>
+            <span class="blockrow__num">47</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=47">Кривые</a>
+              <p class="blockrow__desc">expo, quart, back, spring; cubic-bezier против физической пружины.</p>
+            </div>
+            <span class="blockrow__tag">практика</span>
+            <button class="done" type="button" data-done-toggle="47" aria-pressed="false" aria-label="Отметить блок 47 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=47">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="48" data-tag="core" data-done="false" data-reveal>
+            <span class="blockrow__num">48</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=48">Entrance / exit / loop</a>
+              <p class="blockrow__desc">Три разных набора правил: вход медленный, выход быстрый, цикл редкий.</p>
+            </div>
+            <span class="blockrow__tag">теория</span>
+            <button class="done" type="button" data-done-toggle="48" aria-pressed="false" aria-label="Отметить блок 48 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=48">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="49" data-tag="build" data-done="false" data-reveal>
+            <span class="blockrow__num">49</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=49">Stagger-хореография</a>
+              <p class="blockrow__desc">Порядок чтения = порядок движения; 40–80 мс между элементами.</p>
+            </div>
+            <span class="blockrow__tag">практика</span>
+            <button class="done" type="button" data-done-toggle="49" aria-pressed="false" aria-label="Отметить блок 49 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=49">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="50" data-tag="build" data-done="false" data-reveal>
+            <span class="blockrow__num">50</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=50">Spring-физика</a>
+              <p class="blockrow__desc">stiffness / damping / mass; inertia после drag; overshoot.</p>
+            </div>
+            <span class="blockrow__tag">практика</span>
+            <button class="done" type="button" data-done-toggle="50" aria-pressed="false" aria-label="Отметить блок 50 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=50">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="51" data-tag="build" data-done="false" data-reveal>
+            <span class="blockrow__num">51</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=51">Timeline-мышление</a>
+              <p class="blockrow__desc">Labels, относительные позиции, паузы, пересборка сцен.</p>
+            </div>
+            <span class="blockrow__tag">практика</span>
+            <button class="done" type="button" data-done-toggle="51" aria-pressed="false" aria-label="Отметить блок 51 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=51">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="52" data-tag="core" data-done="false" data-reveal>
+            <span class="blockrow__num">52</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=52">GPU-безопасные свойства</a>
+              <p class="blockrow__desc">transform / opacity / clip-path; почему top и width ломают fps.</p>
+            </div>
+            <span class="blockrow__tag">теория</span>
+            <button class="done" type="button" data-done-toggle="52" aria-pressed="false" aria-label="Отметить блок 52 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=52">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="53" data-tag="build" data-done="false" data-reveal>
+            <span class="blockrow__num">53</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=53">rAF и delta-time</a>
+              <p class="blockrow__desc">Один цикл на страницу, независимость от скролла и от 120 Гц.</p>
+            </div>
+            <span class="blockrow__tag">практика</span>
+            <button class="done" type="button" data-done-toggle="53" aria-pressed="false" aria-label="Отметить блок 53 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=53">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="54" data-tag="qa" data-done="false" data-reveal>
+            <span class="blockrow__num">54</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=54">Motion QA</a>
+              <p class="blockrow__desc">60 fps, dropped frames, will-change без мусора, reduced-motion.</p>
+            </div>
+            <span class="blockrow__tag">чек-лист</span>
+            <button class="done" type="button" data-done-toggle="54" aria-pressed="false" aria-label="Отметить блок 54 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=54">открыть ↗</a>
+          </li>
+        </ol>
+      </section>
+
+      <section class="section shell section--tight" id="how">
+        <div class="split">
+          <div class="stack">
+            <p class="u-mono" data-reveal>как проходить</p>
+            <h2 class="hero__title" style="font-size:var(--fs-xl)" data-reveal="fade">Раздел закрывается артефактом</h2>
+          </div>
+          <div class="prose" data-reveal>
+            <p>Длительности, кривые, хореография. Проходим по порядку: каждый блок даёт один приём и один проверяемый результат.</p>
+            <ul>
+              <li>Демо блока — живой код, а не скриншот.</li>
+              <li>Разбор: что делает приём дорогим и где он ломается.</li>
+              <li>Код повторяем у себя в проекте, не в песочнице.</li>
+              <li>Чек-лист блока — отметки сохраняются локально.</li>
+              <li>Итог раздела: motion-tokens + timeline-библиотека проекта.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section shell section--tight">
+        <div class="pager">
+          <a href="M05.html"><span class="u-mono">назад · M05</span><b>UI-кит и компоненты</b></a>
+          <a href="M07.html"><span class="u-mono">вперёд · M07</span><b>Scroll-driven сценарий</b></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer shell">
+      <div class="footer__grid">
+        <p class="footer__big">M06<br><em>Motion</em></p>
+        <a class="u-mono" href="../index.html">← все 11 разделов</a>
+      </div>
+    </footer>
+
+    <script type="module" src="../assets/js/section.js"></script>
+  </body>
+</html>

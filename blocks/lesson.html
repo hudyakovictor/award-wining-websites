@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Блок курса — 2026 Award-Winning Website</title>
+    <meta name="description" content="Шаблон блока интерактивного курса: демо, разбор, код, задание, чек-лист.">
+    <meta name="theme-color" content="#06070a">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300..700&display=swap">
+
+    <link rel="stylesheet" href="../assets/css/tokens.css">
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../assets/css/motion.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+  </head>
+
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <aside class="dock" data-dock data-dock-base="../" aria-label="Разделы курса"></aside>
+    <div class="progress" data-progress-bar aria-hidden="true"></div>
+
+    <header class="nav" data-nav>
+      <div class="shell nav__inner">
+        <a class="nav__logo" href="../index.html"><b>AW/26</b><span class="u-mono">блок курса</span></a>
+        <nav class="nav__meta" data-crumbs aria-label="Модули курса"></nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="lesson__hero shell">
+        <div class="split">
+          <div class="stack">
+            <p class="u-mono" data-reveal data-l-module>модуль</p>
+            <p class="lesson__num" data-reveal data-l-num>блок 01 / 99</p>
+            <h1 class="lesson__title" data-reveal="fade" data-l-title>Заголовок блока</h1>
+            <p class="hero__lede" data-reveal data-l-thesis>Тезис блока.</p>
+            <div class="cluster" data-reveal>
+              <span class="chip" data-l-tag>теория</span>
+              <button class="chip" type="button" data-lesson-done data-magnetic="0.3">отметить пройденным</button>
+              <a class="chip" href="../index.html" data-l-section>← к разделу</a>
+            </div>
+          </div>
+          <aside class="split__aside stack" data-reveal="fade">
+            <p class="u-mono">модуль</p>
+            <p style="color:var(--fg-1)" data-l-note>Заметка модуля</p>
+            <p class="module__out" data-l-out>артефакт модуля</p>
+          </aside>
+        </div>
+      </section>
+
+      <!-- 1. ДЕМО -->
+      <section class="section shell section--tight" id="demo">
+        <p class="u-mono" data-reveal>01 · демо</p>
+        <div class="stage" data-reveal="scale">
+          <span class="stage__label" data-stage-label>demo</span>
+          <div data-stage-inner></div>
+        </div>
+      </section>
+
+      <!-- 2. РАЗБОР -->
+      <section class="section shell section--tight" id="teardown">
+        <div class="split">
+          <div class="stack">
+            <p class="u-mono" data-reveal>02 · разбор</p>
+            <h2 class="hero__title" style="font-size:var(--fs-xl)" data-reveal="fade">Почему это работает</h2>
+          </div>
+          <div class="prose" data-reveal>
+            <p>Здесь — разбор приёма: что делает приём «дорогим», где его ломают,
+              какие значения токенов за что отвечают и чем платим в производительности.</p>
+            <ul>
+              <li>Проблема, которую решает приём.</li>
+              <li>Механика: свойства, токены, порядок кадров.</li>
+              <li>Границы: где приём превращается в шум.</li>
+              <li>Цена: миллисекунды кадра и вес ассетов.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. КОД -->
+      <section class="section shell section--tight" id="code">
+        <div class="split">
+          <div class="stack">
+            <p class="u-mono" data-reveal>03 · код</p>
+            <h2 class="hero__title" style="font-size:var(--fs-xl)" data-reveal="fade">Минимальная реализация</h2>
+          </div>
+          <div data-reveal>
+            <pre class="code"><code data-code></code></pre>
+            <p class="u-mono">полный код блока живёт в demos/NN-*</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. ЧЕК-ЛИСТ -->
+      <section class="section shell section--tight" id="checklist">
+        <div class="split">
+          <div class="stack">
+            <p class="u-mono" data-reveal>04 · чек-лист</p>
+            <h2 class="hero__title" style="font-size:var(--fs-xl)" data-reveal="fade">Проверь себя</h2>
+          </div>
+          <div class="stack">
+            <div class="checklist" data-checklist data-reveal></div>
+            <p class="u-mono">отметки сохраняются локально</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. НАВИГАЦИЯ -->
+      <section class="section shell section--tight">
+        <div class="pager" data-pager></div>
+      </section>
+    </main>
+
+    <footer class="footer shell">
+      <div class="footer__grid">
+        <p class="footer__big">2026<br><em>Award-Winning</em></p>
+        <a class="u-mono" href="../index.html#sections">← все 11 разделов</a>
+      </div>
+    </footer>
+
+    <script type="module" src="../assets/js/lesson.js"></script>
+  </body>
+</html>

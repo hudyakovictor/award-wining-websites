@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>M01 · Фундамент и арт-дирекшн — 2026 Award-Winning Website</title>
+    <meta name="description" content="M01 · Фундамент и арт-дирекшн: Решаем, что строим, до первого пикселя. Блоки 01–09. Артефакт: concept statement + референс-борд + токены + greybox.">
+    <meta name="theme-color" content="#06070a">
+    <meta property="og:title" content="M01 · Фундамент и арт-дирекшн">
+    <meta property="og:description" content="M01 · Фундамент и арт-дирекшн: Решаем, что строим, до первого пикселя. Блоки 01–09. Артефакт: concept statement + референс-борд + токены + greybox.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300..700&display=swap">
+
+    <link rel="stylesheet" href="../assets/css/tokens.css">
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../assets/css/motion.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+  </head>
+
+  <body data-section="M01">
+    <div class="grain" aria-hidden="true"></div>
+    <aside class="dock" data-dock data-dock-base="../" aria-label="Разделы курса"></aside>
+    <div class="progress" data-progress-bar aria-hidden="true"></div>
+
+    <header class="nav" data-nav>
+      <div class="shell nav__inner">
+        <a class="nav__logo" href="../index.html"><b>AW/26</b><span class="u-mono">курс</span></a>
+        <nav class="nav__meta" aria-label="Навигация">
+          <a class="u-mono" href="../index.html#sections">все разделы</a>
+          <a class="u-mono" href="#blocks">блоки 01–09</a>
+          <a class="u-mono" href="../index.html" data-magnetic="0.2">← на главную</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="lesson__hero shell">
+        <div class="split">
+          <div class="stack">
+            <p class="u-mono" data-reveal>раздел M01 · блоки 01–09</p>
+            <h1 class="lesson__title" data-reveal="fade" data-split>Фундамент и арт-дирекшн</h1>
+            <p class="hero__lede" data-reveal>Решаем, что строим, до первого пикселя.</p>
+            <div class="cluster" data-reveal>
+              <a class="chip" href="#blocks" data-magnetic="0.3">к блокам</a>
+              <a class="chip" href="../index.html#sections">другие разделы</a>
+            </div>
+          </div>
+          <aside class="split__aside stack" data-reveal="fade">
+            <div class="artifact">
+              <p class="u-mono">артефакт раздела</p>
+              <p style="color:var(--fg-1)">concept statement + референс-борд + токены + greybox</p>
+            </div>
+            <div class="artifact">
+              <p class="u-mono">прогресс</p>
+              <p style="color:var(--fg-0);font-family:var(--font-mono)"><span data-section-done>0</span> / 9 блоков</p>
+              <span class="modcard__bar"><i data-section-bar></i></span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section shell section--tight" id="blocks">
+        <div class="toolbar">
+          <div class="chips" data-chips role="group" aria-label="Фильтр по типу блока">
+            <button class="chip" type="button" data-filter-tag="all" aria-pressed="true">все</button>
+            <button class="chip" type="button" data-filter-tag="core" aria-pressed="false">теория</button>
+            <button class="chip" type="button" data-filter-tag="build" aria-pressed="false">практика</button>
+            <button class="chip" type="button" data-filter-tag="case" aria-pressed="false">кейс</button>
+            <button class="chip" type="button" data-filter-tag="qa" aria-pressed="false">чек-лист</button>
+          </div>
+          <p class="u-mono"><span data-filtered>9</span> / 9 блоков</p>
+        </div>
+
+        <ol class="blockrows">
+          <li class="blockrow" data-blockrow data-id="1" data-tag="core" data-done="false" data-reveal>
+            <span class="blockrow__num">01</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=01">Критерии жюри</a>
+              <p class="blockrow__desc">Дизайн / юзабилити / креатив / контент / разработчик — как реально считают баллы.</p>
+            </div>
+            <span class="blockrow__tag">теория</span>
+            <button class="done" type="button" data-done-toggle="1" aria-pressed="false" aria-label="Отметить блок 01 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=01">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="2" data-tag="core" data-done="false" data-reveal>
+            <span class="blockrow__num">02</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=02">Одна сильная идея</a>
+              <p class="blockrow__desc">Concept statement в 1 предложение; 20 средних идей = 0 наград.</p>
+            </div>
+            <span class="blockrow__tag">теория</span>
+            <button class="done" type="button" data-done-toggle="2" aria-pressed="false" aria-label="Отметить блок 02 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=02">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="3" data-tag="build" data-done="false" data-reveal>
+            <span class="blockrow__num">03</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=03">Референс-борд</a>
+              <p class="blockrow__desc">Сбор и декомпозиция; anti-референс; граница «вдохновение / копипаст».</p>
+            </div>
+            <span class="blockrow__tag">практика</span>
+            <button class="done" type="button" data-done-toggle="3" aria-pressed="false" aria-label="Отметить блок 03 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=03">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="4" data-tag="core" data-done="false" data-reveal>
+            <span class="blockrow__num">04</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=04">Art-direction statement</a>
+              <p class="blockrow__desc">Тон, температура, плотность, уровень шума — до вёрстки.</p>
+            </div>
+            <span class="blockrow__tag">теория</span>
+            <button class="done" type="button" data-done-toggle="4" aria-pressed="false" aria-label="Отметить блок 04 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=04">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="5" data-tag="build" data-done="false" data-reveal>
+            <span class="blockrow__num">05</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=05">Архитектура проекта</a>
+              <p class="blockrow__desc">Слои, папки, нейминг, точки расширения; что переживёт редизайн.</p>
+            </div>
+            <span class="blockrow__tag">практика</span>
+            <button class="done" type="button" data-done-toggle="5" aria-pressed="false" aria-label="Отметить блок 05 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=05">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="6" data-tag="build" data-done="false" data-reveal>
+            <span class="blockrow__num">06</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=06">Дизайн-токены</a>
+              <p class="blockrow__desc">color / type / space / motion / z / radius — CSS custom properties.</p>
+            </div>
+            <span class="blockrow__tag">практика</span>
+            <button class="done" type="button" data-done-toggle="6" aria-pressed="false" aria-label="Отметить блок 06 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=06">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="7" data-tag="core" data-done="false" data-reveal>
+            <span class="blockrow__num">07</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=07">Стек 2026</a>
+              <p class="blockrow__desc">Vanilla vs GSAP vs Lenis vs Three/R3F: когда что и чем платить.</p>
+            </div>
+            <span class="blockrow__tag">теория</span>
+            <button class="done" type="button" data-done-toggle="7" aria-pressed="false" aria-label="Отметить блок 07 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=07">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="8" data-tag="build" data-done="false" data-reveal>
+            <span class="blockrow__num">08</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=08">Greybox за 60 минут</a>
+              <p class="blockrow__desc">Прототип структуры до пикселей: проверка ритма без стиля.</p>
+            </div>
+            <span class="blockrow__tag">практика</span>
+            <button class="done" type="button" data-done-toggle="8" aria-pressed="false" aria-label="Отметить блок 08 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=08">открыть ↗</a>
+          </li>
+          <li class="blockrow" data-blockrow data-id="9" data-tag="case" data-done="false" data-reveal>
+            <span class="blockrow__num">09</span>
+            <div>
+              <a class="blockrow__title" href="../blocks/lesson.html?block=09">Питч концепта</a>
+              <p class="blockrow__desc">90 секунд: проблема → идея → вау-момент → почему это работает.</p>
+            </div>
+            <span class="blockrow__tag">кейс</span>
+            <button class="done" type="button" data-done-toggle="9" aria-pressed="false" aria-label="Отметить блок 09 пройденным">✓</button>
+            <a class="blockrow__open" href="../blocks/lesson.html?block=09">открыть ↗</a>
+          </li>
+        </ol>
+      </section>
+
+      <section class="section shell section--tight" id="how">
+        <div class="split">
+          <div class="stack">
+            <p class="u-mono" data-reveal>как проходить</p>
+            <h2 class="hero__title" style="font-size:var(--fs-xl)" data-reveal="fade">Раздел закрывается артефактом</h2>
+          </div>
+          <div class="prose" data-reveal>
+            <p>Решаем, что строим, до первого пикселя. Проходим по порядку: каждый блок даёт один приём и один проверяемый результат.</p>
+            <ul>
+              <li>Демо блока — живой код, а не скриншот.</li>
+              <li>Разбор: что делает приём дорогим и где он ломается.</li>
+              <li>Код повторяем у себя в проекте, не в песочнице.</li>
+              <li>Чек-лист блока — отметки сохраняются локально.</li>
+              <li>Итог раздела: concept statement + референс-борд + токены + greybox.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section shell section--tight">
+        <div class="pager">
+          <span><span class="u-mono">назад</span><b>—</b></span>
+          <a href="M02.html"><span class="u-mono">вперёд · M02</span><b>Типографика и ритм</b></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer shell">
+      <div class="footer__grid">
+        <p class="footer__big">M01<br><em>Фундамент</em></p>
+        <a class="u-mono" href="../index.html">← все 11 разделов</a>
+      </div>
+    </footer>
+
+    <script type="module" src="../assets/js/section.js"></script>
+  </body>
+</html>
