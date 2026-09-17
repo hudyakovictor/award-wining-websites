@@ -1,21 +1,27 @@
 #!/usr/bin/env node
 /**
  * Смоук-тест интерфейса: грузим реальные страницы в jsdom,
- * исполняем настоящие модули (app.js / lesson.js) и проверяем поведение.
+ * исполняем настоящие модули (app.js / section.js / lesson.js) и проверяем поведение.
  * Запуск: npm run test
  */
 import { readFileSync } from 'node:fs';
 import { JSDOM } from 'jsdom';
-import { BLOCKS, moduleOf, pad } from '../assets/js/data/plan.js';
+import { BLOCKS, MODULES, moduleOf, pad } from '../assets/js/data/plan.js';
 import { CHECKLIST } from '../assets/js/data/checklists.js';
 
 const errors = [];
 const assert = (cond, msg) => (cond ? console.log(`  ✓ ${msg}`) : (errors.push(msg), console.log(`  ✗ ${msg}`)));
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+const click = (el) => el.dispatchEvent(new globalThis.window.MouseEvent('click', { bubbles: true }));
+const type = (el, value) => {
+  el.value = value;
+  el.dispatchEvent(new globalThis.window.Event('input', { bubbles: true }));
+};
 
 const load = async (file, search = '') => {
   const html = readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
-  const dom = new JSDOM(html, { url: `http://localhost:3000/${file.replace('index.html', '')}${search}`, pretendToBeVisual: true });
+  const url = `http://localhost:3000/${file.replace('index.html', '')}${search}`;
+  const dom = new JSDOM(html, { url, pretendToBeVisual: true });
   const { window } = dom;
 
   // то, чего нет в jsdom
@@ -39,53 +45,86 @@ const load = async (file, search = '') => {
   return { window, document: window.document };
 };
 
-/* ---------- главная: план, фильтры, прогресс ---------- */
+/* ---------- главная: разделы и глобальный поиск ---------- */
 console.log('\n[index.html]');
 {
   const { document } = await load('index.html');
   await import(new URL('../assets/js/app.js', import.meta.url));
   await wait(2200);
 
-  const cards = () => [...document.querySelectorAll('[data-card]')];
-  assert(cards().length === BLOCKS.length, `отрисовано ${cards().length} карточек блоков`);
-  assert(document.querySelectorAll('[data-module-block]').length === 11, 'отрисовано 11 модулей');
-  assert(document.querySelectorAll('[data-reveal].is-in').length > 0, 'reveal сработал (появились .is-in)');
-  assert(document.querySelector('[data-marquee]').children.length === 22, 'marquee продублирован (22 элемента)');
+  const cards = () => [...document.querySelectorAll('[data-module-card]')];
+  assert(cards().length === MODULES.length, `отрисовано ${cards().length} карточек разделов`);
+  assert(
+    cards().every((c) => c.getAttribute('href') === `sections/${c.dataset.moduleCard}.html`),
+    'каждая карточка ведёт на свою страницу sections/MXX.html',
+  );
+  assert(document.querySelectorAll('[data-marquee]').length === 1
+    && document.querySelector('[data-marquee]').children.length === 22, 'marquee из 11 разделов продублирован');
   assert(document.querySelector('[data-preloader]').hasAttribute('data-done'), 'preloader завершён');
   assert(document.querySelector('[data-stat-blocks]').textContent === '99', 'счётчик блоков = 99');
+  assert(document.querySelector('[data-stat-modules]').textContent === '11', 'счётчик разделов = 11');
 
-  // фильтр по модулю
-  document.querySelector('[data-filter-module="M02"]').dispatchEvent(new globalThis.window.MouseEvent('click', { bubbles: true }));
-  const visible = cards().filter((c) => !c.hidden);
-  assert(visible.length === 9, `фильтр M02 оставил ${visible.length} карточек`);
-  assert(visible.every((c) => c.dataset.module === 'M02'), 'в выдаче только блоки M02');
-  assert(document.querySelector('[data-filtered]').textContent === '09', 'счётчик выдачи обновился (09)');
+  // глобальный поиск: ищет и раздел, и конкретные блоки
+  // «шейдер» законно матчит M03 (блок 23, артефакт «материал-шейдер») и M08
+  type(document.querySelector('[data-search]'), 'шейдер');
+  const shown = cards().filter((c) => !c.hidden).map((c) => c.dataset.moduleCard);
+  assert(shown.length === 2 && shown.includes('M08') && shown.includes('M03'), `поиск «шейдер» оставил разделы ${shown.join(', ')}`);
+  const hits = [...document.querySelectorAll('[data-results] a')];
+  assert(hits.length > 0 && hits.every((a) => /lesson\.html\?block=\d\d/.test(a.getAttribute('href'))),
+    `в результатах ${hits.length} блоков со ссылками на уроки`);
+  assert(/найдено блоков: 10/.test(document.querySelector('[data-results]').textContent), 'показано общее число совпадений (10)');
+  assert(document.querySelector('[data-sections-count]').textContent === '02', 'счётчик разделов обновился (02)');
 
-  // поиск
-  document.querySelector('[data-filter-module="all"]').dispatchEvent(new globalThis.window.MouseEvent('click', { bubbles: true }));
-  const input = document.querySelector('[data-search]');
-  input.value = 'шейдер';
-  input.dispatchEvent(new globalThis.window.Event('input', { bubbles: true }));
-  const found = cards().filter((c) => !c.hidden);
-  assert(found.length > 0 && found.every((c) => /шейдер/i.test(c.textContent)), `поиск «шейдер» → ${found.length} совпадений`);
+  type(document.querySelector('[data-search]'), '');
+  assert(cards().filter((c) => !c.hidden).length === 11, 'после сброса поиска снова 11 разделов');
+  assert(document.querySelector('[data-results]').hidden, 'панель результатов скрыта');
 
-  // отметка прогресса
-  input.value = '';
-  input.dispatchEvent(new globalThis.window.Event('input', { bubbles: true }));
-  const btn = document.querySelector('[data-done-toggle="46"]');
-  btn.dispatchEvent(new globalThis.window.MouseEvent('click', { bubbles: true }));
-  assert(btn.closest('[data-card]').dataset.done === 'true', 'блок 46 отмечен пройденным');
-  assert(document.querySelector('[data-stat-done]').textContent === '01', 'прогресс = 01');
-  assert(JSON.parse(globalThis.localStorage.getItem('aw2026.v1')).done.includes(46), 'прогресс записан в localStorage');
-
-  // аккордеон модуля
-  const toggle = document.querySelector('[data-module-toggle="M05"]');
-  toggle.dispatchEvent(new globalThis.window.MouseEvent('click', { bubbles: true }));
-  assert(document.querySelector('[data-module-block="M05"]').hasAttribute('data-open'), 'модуль M05 раскрыт');
-  assert(document.querySelector('[data-module-count]') !== null, 'у модулей есть счётчик готовности');
+  // прогресс раздела считается из тех же данных
+  click(document.querySelector('[data-reset]'));
+  assert(document.querySelector('[data-stat-done]').textContent === '00', 'сброс прогресса → 00');
 }
 
-/* ---------- урок ---------- */
+/* ---------- страница раздела ---------- */
+console.log('\n[sections/M06.html]');
+{
+  const { document } = await load('sections/M06.html');
+  await import(new URL('../assets/js/section.js', import.meta.url));
+  await wait(300);
+
+  const mod = MODULES.find((m) => m.id === 'M06');
+  const rows = () => [...document.querySelectorAll('[data-blockrow]')];
+  assert(document.body.dataset.section === 'M06', 'body[data-section] = M06');
+  assert(rows().length === 9, `в разделе ${rows().length} блоков`);
+  assert(
+    rows().every((r) => {
+      const id = Number(r.dataset.id);
+      return id >= mod.from && id <= mod.to;
+    }),
+    'все строки принадлежат диапазону 46–54',
+  );
+  assert(document.querySelector('[data-section-done]').textContent === '0', 'прогресс раздела 0 / 9');
+
+  // фильтр по типу
+  click(document.querySelector('[data-filter-tag="qa"]'));
+  const qa = rows().filter((r) => !r.hidden);
+  assert(qa.length === 1 && qa[0].dataset.id === '54', `фильтр «чек-лист» оставил блок ${qa[0]?.dataset.id}`);
+  assert(document.querySelector('[data-filtered]').textContent === '01', 'счётчик выдачи = 01');
+  click(document.querySelector('[data-filter-tag="all"]'));
+  assert(rows().filter((r) => !r.hidden).length === 9, 'после сброса фильтра снова 9 блоков');
+
+  // отметка блока
+  click(document.querySelector('[data-done-toggle="46"]'));
+  assert(document.querySelector('[data-blockrow][data-id="46"]').dataset.done === 'true', 'блок 46 отмечен');
+  assert(document.querySelector('[data-section-done]').textContent === '1', 'прогресс раздела = 1');
+  assert(document.querySelector('[data-section-bar]').style.width === `${(1 / 9) * 100}%`, 'полоса прогресса заполнена');
+  assert(JSON.parse(globalThis.localStorage.getItem('aw2026.v1')).done.includes(46), 'отметка записана в localStorage');
+
+  // пейджер по разделам
+  const pager = [...document.querySelectorAll('.pager a')].map((a) => a.getAttribute('href'));
+  assert(pager.includes('M05.html') && pager.includes('M07.html'), 'пейджер ведёт на M05 и M07');
+}
+
+/* ---------- страница блока ---------- */
 console.log('\n[blocks/lesson.html?block=46]');
 {
   const { document } = await load('blocks/lesson.html', '?block=46');
@@ -95,14 +134,15 @@ console.log('\n[blocks/lesson.html?block=46]');
   const b = BLOCKS.find((x) => x.id === 46);
   assert(document.querySelector('[data-l-title]').textContent === b.t, `заголовок урока = «${b.t}»`);
   assert(document.querySelector('[data-l-thesis]').textContent === b.d, 'тезис блока подставлен');
-  assert(document.querySelector('[data-l-module]').textContent.startsWith('M06'), `модуль = ${moduleOf(46).id}`);
+  assert(document.querySelector('[data-l-module]').textContent.startsWith('M06'), `раздел = ${moduleOf(46).id}`);
+  assert(document.querySelector('[data-l-section]').getAttribute('href') === '../sections/M06.html', 'кнопка «к разделу» ведёт на sections/M06.html');
+  assert(document.querySelectorAll('[data-crumbs] a').length === 11, 'в крошках 11 разделов');
   const expected = CHECKLIST[b.tag].length;
   assert(document.querySelectorAll('[data-checklist] label').length === expected, `чек-лист «${b.tag}»: ${expected} пунктов`);
   assert(document.querySelector('[data-pager] a[href="lesson.html?block=47"]') !== null, 'пейджер ведёт на блок 47');
   assert(document.querySelector('[data-stage-inner] [data-lab-puck]') !== null, 'демо motion-lab смонтировано');
   assert(document.title.startsWith('46 ·'), `title = ${document.title}`);
 
-  // чек-лист сохраняется
   const box = document.querySelector('[data-check]');
   box.checked = true;
   box.dispatchEvent(new globalThis.window.Event('change', { bubbles: true }));
@@ -114,6 +154,6 @@ if (errors.length) {
   errors.forEach((e) => console.error(`  ✗ ${e}`));
   process.exit(1);
 }
-console.log(`\nPASS — интерфейс курса ведёт себя как задумано (пример блока: ${pad(46)}).`);
+console.log(`\nPASS — три уровня навигации работают (пример: раздел M06, блок ${pad(46)}).`);
 // rAF-цикл (курсор, magnetic, preloader) держит event loop — выходим явно
 process.exit(0);

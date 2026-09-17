@@ -1,5 +1,6 @@
 /**
- * Boot страницы курса. Порядок = порядок чтения (блок 49).
+ * Главная курса: 11 разделов, глобальный поиск по 99 блокам, прогресс.
+ * Порядок инициализации = порядок чтения (блок 49).
  */
 import { COURSE, MODULES, BLOCKS, TAG_LABEL, moduleOf, pad } from './data/plan.js';
 import { onFrame } from './core/raf.js';
@@ -8,11 +9,11 @@ import { initMagnetic } from './core/magnetic.js';
 import { initReveal } from './core/reveal.js';
 import { initSplits } from './core/split.js';
 import { initScroll } from './core/scroll.js';
-import { isDone, toggleDone, toggleOpen, isOpen, progress, subscribe, reset } from './core/state.js';
+import { isDone, progress, reset, subscribe } from './core/state.js';
 
-const filters = { module: 'all', tag: 'all', q: '' };
+let query = '';
 
-/* ---------- preloader: счётчик 0→99, затем выход сцены ---------- */
+/* ---------- preloader: счётчик до 99, затем выход сцены (блок 77) ---------- */
 const runPreloader = () =>
   new Promise((resolve) => {
     const box = document.querySelector('[data-preloader]');
@@ -34,111 +35,105 @@ const runPreloader = () =>
     });
   });
 
-/* ---------- рендер плана ---------- */
-const cardTemplate = (b) => {
-  const done = isDone(b.id);
+/* ---------- разделы ---------- */
+const cardTemplate = (m) => {
+  const blocks = BLOCKS.filter((b) => b.id >= m.from && b.id <= m.to);
   return `
-  <article class="card" data-card data-id="${b.id}" data-tag="${b.tag}" data-module="${moduleOf(b.id).id}" data-done="${done}">
-    <div class="card__top">
-      <span class="card__num">${pad(b.id)}</span>
-      <span class="card__tag">${TAG_LABEL[b.tag]}</span>
-    </div>
-    <h3 class="card__title">${b.t}</h3>
-    <p class="card__desc">${b.d}</p>
-    <div class="card__foot">
-      <a class="card__cta" href="blocks/lesson.html?block=${pad(b.id)}">открыть блок ↗</a>
-      <button class="done" type="button" data-done-toggle="${b.id}" aria-pressed="${done}" aria-label="Отметить блок ${pad(b.id)}">✓</button>
-    </div>
-  </article>`;
+  <a class="modcard" href="sections/${m.id}.html" data-module-card="${m.id}" data-reveal>
+    <span class="modcard__id u-mono"><b>${m.id}</b> блоки ${pad(m.from)}–${pad(m.to)}</span>
+    <h2 class="modcard__name">${m.name}</h2>
+    <p class="modcard__note">${m.note}</p>
+    <p class="modcard__out u-mono">артефакт: ${m.out}</p>
+    <span class="modcard__bar"><i data-module-bar="${m.id}"></i></span>
+    <span class="modcard__foot">
+      <span class="u-mono"><span data-module-done="${m.id}">0</span> / ${blocks.length} блоков</span>
+      <span class="u-mono">открыть раздел →</span>
+    </span>
+  </a>`;
 };
 
-const moduleTemplate = (m) => {
-  const items = BLOCKS.filter((b) => b.id >= m.from && b.id <= m.to);
-  return `
-  <section class="module" data-module-block="${m.id}" ${isOpen(m.id) ? 'data-open' : ''}>
-    <button class="module__head" type="button" data-module-toggle="${m.id}" aria-expanded="${isOpen(m.id)}">
-      <span class="module__id">${m.id} · ${pad(m.from)}–${pad(m.to)}</span>
-      <span>
-        <span class="module__name">${m.name}</span>
-        <span class="module__note">${m.note}</span>
-      </span>
-      <span class="cluster" style="flex-wrap:nowrap;gap:var(--sp-3)">
-        <span class="u-mono" data-module-count></span>
-        <span class="module__toggle u-mono">+</span>
-      </span>
-    </button>
-    <div class="module__panel"><div>
-      <p class="module__out">артефакт: ${m.out}</p>
-      <div class="blocks">${items.map(cardTemplate).join('')}</div>
-    </div></div>
-  </section>`;
+const renderSections = () => {
+  const host = document.querySelector('[data-sections]');
+  if (host) host.innerHTML = MODULES.map(cardTemplate).join('');
 };
 
-const renderPlan = () => {
-  const host = document.querySelector('[data-plan]');
+/* ---------- глобальный поиск: разделы + конкретные блоки ---------- */
+const matches = (b, q) => `${pad(b.id)} ${b.t} ${b.d} ${moduleOf(b.id).name}`.toLowerCase().includes(q);
+
+const renderResults = () => {
+  const host = document.querySelector('[data-results]');
   if (!host) return;
-  host.innerHTML = MODULES.map(moduleTemplate).join('');
+  const q = query.trim().toLowerCase();
+  if (!q) {
+    host.hidden = true;
+    host.innerHTML = '';
+    return;
+  }
+  const all = BLOCKS.filter((b) => matches(b, q));
+  const hits = all.slice(0, 8);
+  host.hidden = false;
+  host.innerHTML = hits.length
+    ? `<p class="u-mono">найдено блоков: ${all.length}</p>` +
+      hits
+        .map(
+          (b) => `<a href="blocks/lesson.html?block=${pad(b.id)}">
+            <span class="u-mono">${moduleOf(b.id).id} · ${pad(b.id)}</span>
+            <b>${b.t}</b>
+            <span>${TAG_LABEL[b.tag]}</span>
+          </a>`,
+        )
+        .join('') +
+      (all.length > hits.length ? `<p class="u-mono">показаны первые ${hits.length}</p>` : '')
+    : `<p class="u-mono">по запросу «${query}» блоков нет</p>`;
 };
 
-/* ---------- фильтрация ---------- */
-const applyFilters = () => {
+const applyFilter = () => {
+  const q = query.trim().toLowerCase();
   let visible = 0;
-  document.querySelectorAll('[data-card]').forEach((card) => {
-    const b = BLOCKS.find((x) => x.id === Number(card.dataset.id));
-    const byModule = filters.module === 'all' || card.dataset.module === filters.module;
-    const byTag = filters.tag === 'all' || card.dataset.tag === filters.tag;
-    const q = filters.q.trim().toLowerCase();
-    const byQuery = !q || `${pad(b.id)} ${b.t} ${b.d}`.toLowerCase().includes(q);
-    const show = byModule && byTag && byQuery;
-    card.hidden = !show;
-    if (show) visible += 1;
+  document.querySelectorAll('[data-module-card]').forEach((card) => {
+    const m = MODULES.find((x) => x.id === card.dataset.moduleCard);
+    const blocks = BLOCKS.filter((b) => b.id >= m.from && b.id <= m.to);
+    const hit = !q || `${m.id} ${m.name} ${m.note} ${m.out}`.toLowerCase().includes(q) || blocks.some((b) => matches(b, q));
+    card.hidden = !hit;
+    if (hit) visible += 1;
   });
-
-  // модуль без совпадений скрываем целиком
-  document.querySelectorAll('[data-module-block]').forEach((section) => {
-    const any = [...section.querySelectorAll('[data-card]')].some((c) => !c.hidden);
-    section.hidden = !any;
-  });
-
-  const empty = document.querySelector('[data-empty]');
-  if (empty) empty.hidden = visible !== 0;
-  const counter = document.querySelector('[data-filtered]');
+  const counter = document.querySelector('[data-sections-count]');
   if (counter) counter.textContent = pad(visible);
-};
-
-/* ---------- счётчики статистики ---------- */
-const animateNumber = (el, to, suffix = '') => {
-  let from = 0;
-  const start = performance.now();
-  const dur = 900;
-  const step = (now) => {
-    const k = Math.min((now - start) / dur, 1);
-    const eased = 1 - Math.pow(1 - k, 4);
-    el.textContent = `${Math.round(from + (to - from) * eased)}${suffix}`;
-    if (k < 1) requestAnimationFrame(step);
-  };
-  requestAnimationFrame(step);
+  renderResults();
 };
 
 /* ---------- прогресс ---------- */
-const syncStats = () => {
+const syncProgress = () => {
+  MODULES.forEach((m) => {
+    const blocks = BLOCKS.filter((b) => b.id >= m.from && b.id <= m.to);
+    const done = blocks.filter((b) => isDone(b.id)).length;
+    const num = document.querySelector(`[data-module-done="${m.id}"]`);
+    const bar = document.querySelector(`[data-module-bar="${m.id}"]`);
+    if (num) num.textContent = done;
+    if (bar) bar.style.width = `${(done / blocks.length) * 100}%`;
+  });
+
   const done = BLOCKS.filter((b) => isDone(b.id)).length;
   const pct = Math.round(progress(BLOCKS.length) * 100);
   const elDone = document.querySelector('[data-stat-done]');
   const elPct = document.querySelector('[data-stat-pct]');
   if (elDone) elDone.textContent = pad(done);
   if (elPct) elPct.textContent = `${pct}%`;
-  document.querySelectorAll('[data-module-block]').forEach((section) => {
-    const id = section.dataset.moduleBlock;
-    const total = section.querySelectorAll('[data-card]').length;
-    const ready = section.querySelectorAll('[data-card][data-done="true"]').length;
-    const label = section.querySelector('[data-module-count]');
-    if (label) label.textContent = `${ready}/${total}`;
-  });
 };
 
-/* ---------- boot ---------- */
-/* ---------- бегущая строка модулей (из того же источника данных) ---------- */
+/* ---------- счётчики в hero ---------- */
+const animateNumber = (el, to) => {
+  const start = performance.now();
+  const dur = 900;
+  const step = (now) => {
+    const k = Math.min((now - start) / dur, 1);
+    el.textContent = Math.round(to * (1 - Math.pow(1 - k, 4)));
+    if (k < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+};
+
+/* ---------- marquee ---------- */
 const renderMarquee = () => {
   const track = document.querySelector('[data-marquee]');
   if (!track) return;
@@ -146,77 +141,23 @@ const renderMarquee = () => {
   track.innerHTML = items + items;
 };
 
+/* ---------- boot ---------- */
 const init = async () => {
   initScroll();
-  renderPlan();
+  renderSections();
   renderMarquee();
-  syncStats();
-
-  // chips модулей и тегов
-  const chipsModules = document.querySelector('[data-chips-modules]');
-  if (chipsModules) {
-    chipsModules.innerHTML =
-      `<button class="chip" type="button" data-filter-module="all" aria-pressed="true">все</button>` +
-      MODULES.map((m) => `<button class="chip" type="button" data-filter-module="${m.id}" aria-pressed="false">${m.id}</button>`).join('');
-  }
-  const chipsTags = document.querySelector('[data-chips-tags]');
-  if (chipsTags) {
-    chipsTags.innerHTML =
-      `<button class="chip" type="button" data-filter-tag="all" aria-pressed="true">все типы</button>` +
-      Object.entries(TAG_LABEL)
-        .map(([k, v]) => `<button class="chip" type="button" data-filter-tag="${k}" aria-pressed="false">${v}</button>`)
-        .join('');
-  }
-
-  document.addEventListener('click', (e) => {
-    const modChip = e.target.closest('[data-filter-module]');
-    if (modChip) {
-      filters.module = modChip.dataset.filterModule;
-      document.querySelectorAll('[data-filter-module]').forEach((c) => (c.setAttribute('aria-pressed', String(c === modChip))));
-      applyFilters();
-    }
-
-    const tagChip = e.target.closest('[data-filter-tag]');
-    if (tagChip) {
-      filters.tag = tagChip.dataset.filterTag;
-      document.querySelectorAll('[data-filter-tag]').forEach((c) => (c.setAttribute('aria-pressed', String(c === tagChip))));
-      applyFilters();
-    }
-
-    const toggle = e.target.closest('[data-module-toggle]');
-    if (toggle) {
-      const id = toggle.dataset.moduleToggle;
-      toggleOpen(id);
-      const section = document.querySelector(`[data-module-block="${id}"]`);
-      const open = section.hasAttribute('data-open');
-      if (open) section.removeAttribute('data-open');
-      else section.setAttribute('data-open', '');
-      toggle.setAttribute('aria-expanded', String(!open));
-    }
-
-    const doneBtn = e.target.closest('[data-done-toggle]');
-    if (doneBtn) {
-      const id = Number(doneBtn.dataset.doneToggle);
-      const done = toggleDone(id);
-      doneBtn.setAttribute('aria-pressed', String(done));
-      doneBtn.closest('[data-card]').dataset.done = String(done);
-      syncStats();
-    }
-
-    if (e.target.closest('[data-reset]')) {
-      reset();
-      document.querySelectorAll('[data-card]').forEach((c) => {
-        c.dataset.done = 'false';
-        c.querySelector('[data-done-toggle]')?.setAttribute('aria-pressed', 'false');
-      });
-      syncStats();
-    }
-  });
+  syncProgress();
 
   const search = document.querySelector('[data-search]');
   search?.addEventListener('input', (e) => {
-    filters.q = e.target.value;
-    applyFilters();
+    query = e.target.value;
+    applyFilter();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('[data-reset]')) return;
+    reset();
+    syncProgress();
   });
 
   addEventListener('keydown', (e) => {
@@ -224,30 +165,26 @@ const init = async () => {
       e.preventDefault();
       search?.focus();
     }
-    if (e.key === 'Escape') {
+    if (e.key === 'Escape' && search) {
       search.value = '';
-      filters.q = '';
-      applyFilters();
+      query = '';
+      applyFilter();
       search.blur();
     }
   });
 
-  subscribe(syncStats);
+  subscribe(syncProgress);
 
-  // анимация чисел в шапке курса
   const n1 = document.querySelector('[data-stat-blocks]');
   const n2 = document.querySelector('[data-stat-modules]');
   if (n1) animateNumber(n1, COURSE.blocks);
   if (n2) animateNumber(n2, COURSE.modules);
 
+  applyFilter();
   initSplits();
   initReveal();
   initMagnetic();
   initCursor();
-  applyFilters();
-
-  // первый модуль открыт по умолчанию — план должен быть виден сразу
-  if (!isOpen('M01')) document.querySelector('[data-module-toggle="M01"]')?.click();
 
   await runPreloader();
   document.querySelector('[data-hero]')?.classList.add('is-in');

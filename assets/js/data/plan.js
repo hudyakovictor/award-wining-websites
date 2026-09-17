@@ -15,17 +15,17 @@ export const COURSE = {
 };
 
 export const MODULES = [
-  { id: 'M01', from: 1, to: 9, name: 'Фундамент и арт-дирекшн', note: 'Решаем, что строим, до первого пикселя.', out: 'concept statement + референс-борд + токены + greybox' },
-  { id: 'M02', from: 10, to: 18, name: 'Типографика и ритм', note: 'Текст — главный носитель премиальности.', out: 'type scale, kinetic-заголовок, типографический экран' },
-  { id: 'M03', from: 19, to: 27, name: 'Цвет, свет, материал', note: 'Палитра и физика поверхности.', out: 'палитра OKLCH, материал-шейдер, grain-слой' },
-  { id: 'M04', from: 28, to: 36, name: 'Сетка, пространство, композиция', note: 'Layout как инструмент иерархии.', out: 'сетка 12 колонок + 3 композиционных экрана' },
-  { id: 'M05', from: 37, to: 45, name: 'UI-кит и компоненты', note: 'Атомы, из которых собран сайт-победитель.', out: 'UI-кит: nav, кнопки, карточки, формы, оверлеи' },
-  { id: 'M06', from: 46, to: 54, name: 'Motion-система', note: 'Длительности, кривые, хореография.', out: 'motion-tokens + timeline-библиотека проекта' },
-  { id: 'M07', from: 55, to: 63, name: 'Scroll-driven сценарий', note: 'Скролл как таймлайн повествования.', out: 'pin-секция, horizontal, sticky 2-col, sequence' },
-  { id: 'M08', from: 64, to: 72, name: 'Effects: WebGL, шейдеры, частицы', note: 'То, что невозможно в Figma.', out: 'шейдер-сцена + частицы + postprocessing' },
-  { id: 'M09', from: 73, to: 81, name: 'Transitions и перестановка сцен', note: 'Переходы между состояниями и страницами.', out: 'preloader + page transition + FLIP-морф' },
-  { id: 'M10', from: 82, to: 90, name: 'Interaction', note: 'Курсор, физика, drag, звук, отклик.', out: 'курсор, magnetic, drag, sound, живые данные' },
-  { id: 'M11', from: 91, to: 99, name: 'Продакшн, доступность, подача', note: 'От макета до награды.', out: 'Lighthouse 95+, a11y, кейс и submit на Awwwards' },
+  { id: 'M01', short: 'Фундамент', from: 1, to: 9, name: 'Фундамент и арт-дирекшн', note: 'Решаем, что строим, до первого пикселя.', out: 'concept statement + референс-борд + токены + greybox' },
+  { id: 'M02', short: 'Типографика', from: 10, to: 18, name: 'Типографика и ритм', note: 'Текст — главный носитель премиальности.', out: 'type scale, kinetic-заголовок, типографический экран' },
+  { id: 'M03', short: 'Цвет', from: 19, to: 27, name: 'Цвет, свет, материал', note: 'Палитра и физика поверхности.', out: 'палитра OKLCH, материал-шейдер, grain-слой' },
+  { id: 'M04', short: 'Сетка', from: 28, to: 36, name: 'Сетка, пространство, композиция', note: 'Layout как инструмент иерархии.', out: 'сетка 12 колонок + 3 композиционных экрана' },
+  { id: 'M05', short: 'UI-кит', from: 37, to: 45, name: 'UI-кит и компоненты', note: 'Атомы, из которых собран сайт-победитель.', out: 'UI-кит: nav, кнопки, карточки, формы, оверлеи' },
+  { id: 'M06', short: 'Motion', from: 46, to: 54, name: 'Motion-система', note: 'Длительности, кривые, хореография.', out: 'motion-tokens + timeline-библиотека проекта' },
+  { id: 'M07', short: 'Scroll', from: 55, to: 63, name: 'Scroll-driven сценарий', note: 'Скролл как таймлайн повествования.', out: 'pin-секция, horizontal, sticky 2-col, sequence' },
+  { id: 'M08', short: 'Effects', from: 64, to: 72, name: 'Effects: WebGL, шейдеры, частицы', note: 'То, что невозможно в Figma.', out: 'шейдер-сцена + частицы + postprocessing' },
+  { id: 'M09', short: 'Transitions', from: 73, to: 81, name: 'Transitions и перестановка сцен', note: 'Переходы между состояниями и страницами.', out: 'preloader + page transition + FLIP-морф' },
+  { id: 'M10', short: 'Interaction', from: 82, to: 90, name: 'Interaction', note: 'Курсор, физика, drag, звук, отклик.', out: 'курсор, magnetic, drag, sound, живые данные' },
+  { id: 'M11', short: 'Продакшн', from: 91, to: 99, name: 'Продакшн, доступность, подача', note: 'От макета до награды.', out: 'Lighthouse 95+, a11y, кейс и submit на Awwwards' },
 ];
 
 export const BLOCKS = [

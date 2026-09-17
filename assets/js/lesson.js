@@ -83,12 +83,15 @@ const boot = () => {
     pager.innerHTML = cell(prev, 'назад') + cell(next, 'вперёд');
   }
 
-  // хлебные крошки по модулю
+  // ссылка на раздел и хлебные крошки по разделам
+  const back = document.querySelector('[data-l-section]');
+  if (back) back.href = `../sections/${mod.id}.html`;
+
   const crumbs = document.querySelector('[data-crumbs]');
   if (crumbs) {
     crumbs.innerHTML = MODULES.map(
       (m) =>
-        `<a class="u-mono" href="../index.html#${m.id}" style="${m.id === mod.id ? 'color:var(--accent)' : ''}">${m.id}</a>`,
+        `<a class="u-mono" href="../sections/${m.id}.html" style="${m.id === mod.id ? 'color:var(--accent)' : ''}">${m.id}</a>`,
     ).join('<span class="u-mono">/</span>');
   }
 

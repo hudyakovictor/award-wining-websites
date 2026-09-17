@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ID}} · {{NAME}} — 2026 Award-Winning Website</title>
+    <meta name="description" content="{{DESC}}">
+    <meta name="theme-color" content="#06070a">
+    <meta property="og:title" content="{{ID}} · {{NAME}}">
+    <meta property="og:description" content="{{DESC}}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300..700&display=swap">
+
+    <link rel="stylesheet" href="../assets/css/tokens.css">
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../assets/css/motion.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+  </head>
+
+  <body data-section="{{ID}}">
+    <div class="grain" aria-hidden="true"></div>
+    <div class="progress" data-progress-bar aria-hidden="true"></div>
+
+    <header class="nav" data-nav>
+      <div class="shell nav__inner">
+        <a class="nav__logo" href="../index.html"><b>AW/26</b><span class="u-mono">курс</span></a>
+        <nav class="nav__meta" aria-label="Навигация">
+          <a class="u-mono" href="../index.html#sections">все разделы</a>
+          <a class="u-mono" href="#blocks">блоки {{RANGE}}</a>
+          <a class="u-mono" href="../index.html" data-magnetic="0.2">← на главную</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="lesson__hero shell">
+        <div class="split">
+          <div class="stack">
+            <p class="u-mono" data-reveal>раздел {{ID}} · блоки {{RANGE}}</p>
+            <h1 class="lesson__title" data-reveal="fade" data-split>{{NAME}}</h1>
+            <p class="hero__lede" data-reveal>{{NOTE}}</p>
+            <div class="cluster" data-reveal>
+              <a class="chip" href="#blocks" data-magnetic="0.3">к блокам</a>
+              <a class="chip" href="../index.html#sections">другие разделы</a>
+            </div>
+          </div>
+          <aside class="split__aside stack" data-reveal="fade">
+            <div class="artifact">
+              <p class="u-mono">артефакт раздела</p>
+              <p style="color:var(--fg-1)">{{OUT}}</p>
+            </div>
+            <div class="artifact">
+              <p class="u-mono">прогресс</p>
+              <p style="color:var(--fg-0);font-family:var(--font-mono)"><span data-section-done>0</span> / {{COUNT}} блоков</p>
+              <span class="modcard__bar"><i data-section-bar></i></span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section shell section--tight" id="blocks">
+        <div class="toolbar">
+          <div class="chips" data-chips role="group" aria-label="Фильтр по типу блока">
+            <button class="chip" type="button" data-filter-tag="all" aria-pressed="true">все</button>
+            <button class="chip" type="button" data-filter-tag="core" aria-pressed="false">теория</button>
+            <button class="chip" type="button" data-filter-tag="build" aria-pressed="false">практика</button>
+            <button class="chip" type="button" data-filter-tag="case" aria-pressed="false">кейс</button>
+            <button class="chip" type="button" data-filter-tag="qa" aria-pressed="false">чек-лист</button>
+          </div>
+          <p class="u-mono"><span data-filtered>{{COUNT}}</span> / {{COUNT}} блоков</p>
+        </div>
+
+        <ol class="blockrows">
+{{ROWS}}
+        </ol>
+      </section>
+
+      <section class="section shell section--tight" id="how">
+        <div class="split">
+          <div class="stack">
+            <p class="u-mono" data-reveal>как проходить</p>
+            <h2 class="hero__title" style="font-size:var(--fs-xl)" data-reveal="fade">Раздел закрывается артефактом</h2>
+          </div>
+          <div class="prose" data-reveal>
+            <p>{{NOTE}} Проходим по порядку: каждый блок даёт один приём и один проверяемый результат.</p>
+            <ul>
+              <li>Демо блока — живой код, а не скриншот.</li>
+              <li>Разбор: что делает приём дорогим и где он ломается.</li>
+              <li>Код повторяем у себя в проекте, не в песочнице.</li>
+              <li>Чек-лист блока — отметки сохраняются локально.</li>
+              <li>Итог раздела: {{OUT}}.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section shell section--tight">
+        <div class="pager">
+{{PAGER}}
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer shell">
+      <div class="footer__grid">
+        <p class="footer__big">{{ID}}<br><em>{{SHORT}}</em></p>
+        <a class="u-mono" href="../index.html">← все 11 разделов</a>
+      </div>
+    </footer>
+
+    <script type="module" src="../assets/js/section.js"></script>
+  </body>
+</html>

@@ -298,3 +298,96 @@ code.inline { font-family: var(--font-mono); font-size: 0.9em; color: var(--acce
 .footer__big { font-family: var(--font-display); font-size: var(--fs-xl); line-height: 0.95; letter-spacing: var(--track-tight); }
 
 .empty { padding: var(--sp-7) 0; text-align: center; color: var(--fg-3); }
+
+/* --- Главная: карточки разделов --- */
+.modcards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(24rem, 100%), 1fr));
+  gap: var(--sp-3);
+  padding-block: var(--sp-5);
+}
+.modcard {
+  position: relative;
+  display: grid;
+  gap: var(--sp-3);
+  align-content: start;
+  padding: var(--sp-5) var(--sp-4);
+  border: var(--hair);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  transition: border-color var(--d-1), transform var(--d-2) var(--e-expo);
+}
+.modcard::before {
+  content: '';
+  position: absolute;
+  inset: auto auto 0 0;
+  width: 100%; height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform var(--d-3) var(--e-expo);
+}
+.modcard:hover { border-color: color-mix(in oklab, var(--accent) 45%, transparent); transform: translateY(-4px); }
+.modcard:hover::before { transform: scaleX(1); }
+.modcard[hidden] { display: none; }
+.modcard__id { display: flex; justify-content: space-between; gap: var(--sp-2); }
+.modcard__id b { color: var(--accent); font-weight: 400; }
+.modcard__name { font-family: var(--font-display); font-size: var(--fs-lg); line-height: 1.05; font-weight: 400; }
+.modcard__note { color: var(--fg-2); font-size: var(--fs-sm); }
+.modcard__out { color: var(--fg-3); }
+.modcard__foot { display: flex; justify-content: space-between; gap: var(--sp-2); align-items: center; border-top: var(--hair); padding-top: var(--sp-3); }
+.modcard__bar { display: block; width: 100%; height: 2px; background: color-mix(in oklab, var(--fg-0) 10%, transparent); }
+.modcard__bar i { display: block; height: 100%; background: var(--accent); width: 0%; transition: width var(--d-3) var(--e-expo); }
+
+/* --- Результаты глобального поиска по блокам --- */
+.results { display: grid; gap: var(--sp-2); padding-block: var(--sp-4); }
+.results[hidden] { display: none; }
+.results a {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--sp-3);
+  align-items: baseline;
+  padding: var(--sp-3);
+  border: var(--hair);
+  border-radius: var(--r-md);
+  transition: border-color var(--d-1), transform var(--d-1) var(--e-expo);
+}
+.results a:hover { border-color: var(--accent); transform: translateX(4px); }
+.results b { font-weight: 400; }
+.results span { color: var(--fg-3); font-size: var(--fs-sm); }
+
+/* --- Раздел: строки блоков --- */
+.blockrows { display: grid; gap: var(--sp-2); padding-block: var(--sp-5); }
+.blockrow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  gap: var(--sp-4);
+  align-items: center;
+  padding: var(--sp-4);
+  border: var(--hair);
+  border-radius: var(--r-md);
+  transition: border-color var(--d-1), background var(--d-2), transform var(--d-2) var(--e-expo);
+}
+.blockrow:hover { border-color: color-mix(in oklab, var(--accent) 45%, transparent); transform: translateX(4px); }
+.blockrow[hidden] { display: none; }
+.blockrow[data-done='true'] { background: color-mix(in oklab, var(--accent) 7%, transparent); }
+.blockrow[data-done='true'] .blockrow__title { color: var(--accent); }
+.blockrow__num { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--accent); font-variant-numeric: tabular-nums; }
+.blockrow__title { font-family: var(--font-display); font-size: var(--fs-lg); line-height: 1.1; font-weight: 400; }
+.blockrow__desc { color: var(--fg-2); font-size: var(--fs-sm); margin-top: 0.2rem; }
+.blockrow__tag { font-family: var(--font-mono); font-size: 0.6rem; color: var(--fg-3); border: var(--hair); padding: 0.15rem 0.5rem; border-radius: var(--r-pill); white-space: nowrap; }
+.blockrow__open { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--fg-1); white-space: nowrap; }
+@media (max-width: 700px) {
+  .blockrow { grid-template-columns: auto minmax(0, 1fr); row-gap: var(--sp-2); }
+  .blockrow__tag, .blockrow__open, .blockrow .done { grid-column: 2; justify-self: start; }
+}
+
+/* --- Раздел: боковая панель артефакта --- */
+.artifact {
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border: var(--hair);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--r-md);
+}

@@ -7,9 +7,11 @@
   "scripts": {
     "start": "node tools/serve.mjs 3000",
     "plan": "node tools/build-plan.mjs",
+    "sections": "node tools/build-sections.mjs",
+    "build": "node tools/build-plan.mjs && node tools/build-sections.mjs",
     "check": "node tools/check.mjs",
     "test": "node tools/check-dom.mjs",
-    "verify": "npm run plan && npm run check && npm run test"
+    "verify": "npm run build && npm run check && npm run test"
   },
   "devDependencies": {
     "jsdom": "^25.0.1"

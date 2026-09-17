@@ -1,8 +1,8 @@
-/** Прогресс курса в localStorage: пройденные блоки, чек-листы, открытые модули. */
+/** Прогресс курса в localStorage: пройденные блоки и отметки чек-листов. */
 import { on, emit } from './bus.js';
 
 const KEY = 'aw2026.v1';
-const fallback = { done: [], checks: {}, open: [], sound: false };
+const fallback = { done: [], checks: {}, sound: false };
 
 let state = load();
 
@@ -32,15 +32,6 @@ export const toggleDone = (id) => {
   emit('progress', state.done.length);
   return isDone(id);
 };
-
-export const toggleOpen = (moduleId) => {
-  state.open = state.open.includes(moduleId)
-    ? state.open.filter((x) => x !== moduleId)
-    : [...state.open, moduleId];
-  save();
-};
-
-export const isOpen = (moduleId) => state.open.includes(moduleId);
 
 export const toggleCheck = (key) => {
   state.checks[key] = !state.checks[key];
