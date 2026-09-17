@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>2026 Award-Winning Website — интерактивный курс · 99 блоков</title>
+    <meta name="description" content="Интерактивный курс о том, как собираются сайты уровня Awwwards: UI, анимации, эффекты, переходы, взаимодействие. 99 блоков без воды.">
+    <meta name="theme-color" content="#06070a">
+    <meta property="og:title" content="2026 Award-Winning Website">
+    <meta property="og:description" content="99 блоков: UI, motion, effects, transitions, interaction, продакшн.">
+    <meta property="og:type" content="website">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300..700&display=swap">
+
+    <link rel="stylesheet" href="./assets/css/tokens.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/layout.css">
+    <link rel="stylesheet" href="./assets/css/motion.css">
+    <link rel="stylesheet" href="./assets/css/components.css">
+  </head>
+
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- Preloader: счётчик блоков, затем выход сцены (блок 77) -->
+    <div class="preloader" data-preloader role="status" aria-label="Загрузка курса">
+      <span class="preloader__count" data-preloader-count>00</span>
+      <div class="preloader__bar"><i data-preloader-bar></i></div>
+    </div>
+
+    <div class="progress" data-progress-bar aria-hidden="true"></div>
+
+    <header class="nav" data-nav>
+      <div class="shell nav__inner">
+        <a class="nav__logo" href="#top">
+          <b>AW/26</b>
+          <span class="u-mono">award-winning website</span>
+        </a>
+        <nav class="nav__meta" aria-label="Разделы курса">
+          <a class="u-mono" href="#plan">99 блоков</a>
+          <a class="u-mono" href="#how">формат</a>
+          <a class="u-mono" href="blocks/lesson.html?block=01" data-magnetic="0.2">демо-урок ↗</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- HERO -->
+      <section class="hero shell" data-hero>
+        <div class="split">
+          <div class="stack">
+            <p class="u-mono" data-reveal>курс · 11 модулей · 99 блоков · 2026</p>
+            <h1 class="hero__title" data-split data-reveal="fade">
+              Как делают сайты, которые берут награды
+            </h1>
+            <p class="hero__lede" data-reveal>
+              Не «красивые картинки», а система: типографика, сетка, motion-токены,
+              scroll-сценарий, шейдеры, переходы, физика курсора и продакшн-метрики.
+              Каждый блок — живой пример, код, задание и чек-лист.
+            </p>
+            <div class="cluster" data-reveal>
+              <a class="chip" href="#plan" data-magnetic="0.35" aria-pressed="false">открыть план</a>
+              <a class="chip" href="blocks/lesson.html?block=01" data-magnetic="0.35" aria-pressed="false">шаблон урока ↗</a>
+              <button class="chip" type="button" data-reset>сбросить прогресс</button>
+            </div>
+          </div>
+
+          <aside class="hero__side split__aside" data-reveal="fade">
+            <div class="stats" style="width:100%">
+              <div class="stat">
+                <div class="stat__num" data-stat-blocks>0</div>
+                <div class="stat__label u-mono">блоков</div>
+              </div>
+              <div class="stat">
+                <div class="stat__num" data-stat-modules>0</div>
+                <div class="stat__label u-mono">модулей</div>
+              </div>
+              <div class="stat">
+                <div class="stat__num" data-stat-done>00</div>
+                <div class="stat__label u-mono">пройдено</div>
+              </div>
+              <div class="stat">
+                <div class="stat__num" data-stat-pct>0%</div>
+                <div class="stat__label u-mono">прогресс</div>
+              </div>
+            </div>
+            <p class="u-mono">прогресс хранится локально в браузере</p>
+          </aside>
+        </div>
+      </section>
+
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track" data-marquee></div>
+      </div>
+
+      <!-- ПЛАН -->
+      <section class="section shell section--tight" id="plan">
+        <div class="toolbar">
+          <div class="chips" data-chips-modules role="group" aria-label="Фильтр по модулю"></div>
+          <div class="chips" data-chips-tags role="group" aria-label="Фильтр по типу блока"></div>
+          <div class="search">
+            <span class="u-mono" aria-hidden="true">поиск</span>
+            <input type="search" data-search placeholder="номер, тема или приём…" aria-label="Поиск по блокам">
+            <kbd>/</kbd>
+          </div>
+          <p class="u-mono"><span data-filtered>99</span> / 99 блоков</p>
+        </div>
+
+        <div data-plan></div>
+        <p class="empty" data-empty hidden>По такому запросу блоков нет. Сбросьте фильтр.</p>
+      </section>
+
+      <!-- ФОРМАТ -->
+      <section class="section shell" id="how">
+        <div class="split">
+          <div class="stack">
+            <p class="u-mono" data-reveal>формат</p>
+            <h2 class="hero__title" style="font-size:var(--fs-2xl)" data-reveal="fade">
+              Один блок — <em>один</em> приём
+            </h2>
+          </div>
+          <div class="prose" data-reveal>
+            <p>Блок занимает 6–12 минут и всегда устроен одинаково: живой пример на 30 секунд,
+              разбор решения, код, задание и чек-лист. Никаких «сделайте красиво».</p>
+            <ul>
+              <li>Демо — рабочий код в <code class="inline">demos/</code>, а не скриншот.</li>
+              <li>У каждого блока есть страница <code class="inline">blocks/lesson.html?block=NN</code>.</li>
+              <li>Блок заканчивается артефактом: файлом, компонентом или метрикой.</li>
+              <li>Модуль закрывается только после своего артефакта.</li>
+              <li>Порядок внутри модуля можно менять — между модулями нет.</li>
+            </ul>
+            <h2>Что уже работает в шаблоне</h2>
+            <ul>
+              <li>Токены: цвет, шкала типов, пространство, длительности, кривые, z-слои.</li>
+              <li>Один цикл <code class="inline">rAF</code> с delta-time для всех анимаций.</li>
+              <li>Reveal по скроллу со стаггером, mask-reveal строк, magnetic, кастомный курсор.</li>
+              <li>Прогресс курса, фильтры, поиск, чек-листы — всё в localStorage.</li>
+              <li>Поддержка <code class="inline">prefers-reduced-motion</code> и клавиатуры.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer shell">
+      <div class="footer__grid">
+        <p class="footer__big" data-reveal="fade">2026<br><em>Award-Winning</em><br>Website</p>
+        <div class="stack" style="align-items:flex-start">
+          <p class="u-mono">99 блоков · 11 модулей</p>
+          <a class="u-mono" href="./COURSE_PLAN.md">план курса (md) ↗</a>
+          <a class="u-mono" href="./README.md">как запустить ↗</a>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="./assets/js/app.js"></script>
+  </body>
+</html>

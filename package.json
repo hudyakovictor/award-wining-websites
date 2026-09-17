@@ -1,0 +1,17 @@
+{
+  "name": "award-wining-websites",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Интерактивный курс «2026 Award-Winning Website»: 11 модулей, 99 блоков.",
+  "scripts": {
+    "start": "node tools/serve.mjs 3000",
+    "plan": "node tools/build-plan.mjs",
+    "check": "node tools/check.mjs",
+    "test": "node tools/check-dom.mjs",
+    "verify": "npm run plan && npm run check && npm run test"
+  },
+  "devDependencies": {
+    "jsdom": "^25.0.1"
+  }
+}

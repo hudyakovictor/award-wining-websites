@@ -1,0 +1,72 @@
+/* MOTION — состояния появления и keyframes. Длительности/кривые берутся из tokens */
+
+[data-reveal] {
+  --reveal-y: 2.25rem;
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-y), 0);
+  transition:
+    opacity var(--d-3) var(--e-quart),
+    transform var(--d-3) var(--e-expo);
+  transition-delay: calc(var(--i, 0) * var(--stagger));
+  will-change: opacity, transform;
+}
+
+[data-reveal='fade'] { --reveal-y: 0; }
+[data-reveal='scale'] {
+  --reveal-y: 0;
+  transform: scale(0.94);
+  transform-origin: 50% 100%;
+}
+[data-reveal='clip'] {
+  --reveal-y: 0;
+  opacity: 1;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path var(--d-4) var(--e-expo);
+  transition-delay: calc(var(--i, 0) * var(--stagger));
+}
+
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 0 0);
+}
+
+/* Маскированная строка: текст выезжает из-под шторки (M02/14) */
+.line-mask { display: block; overflow: hidden; padding-block: 0.06em; }
+.line-mask > span {
+  display: block;
+  transform: translate3d(0, 110%, 0);
+  transition: transform var(--d-4) var(--e-expo);
+  transition-delay: calc(var(--i, 0) * var(--stagger));
+}
+.is-in .line-mask > span,
+.line-mask.is-in > span { transform: none; }
+
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 55%, transparent); }
+  100% { box-shadow: 0 0 0 18px transparent; }
+}
+
+@keyframes draw {
+  from { stroke-dashoffset: var(--len, 1000); }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translate3d(0, -0.4rem, 0); }
+  50% { transform: translate3d(0, 0.4rem, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal], .line-mask > span {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+}

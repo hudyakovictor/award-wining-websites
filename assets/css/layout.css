@@ -1,0 +1,42 @@
+/* LAYOUT — оболочка, сетка 12 колонок, секции */
+
+.shell {
+  width: min(100% - (var(--gutter) * 2), var(--shell));
+  margin-inline: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--sp-5) var(--gutter);
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+
+.section { padding-block: var(--sp-8); position: relative; }
+.section--tight { padding-block: var(--sp-6); }
+
+.rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--fg-0) 18%, transparent), transparent);
+}
+
+/* Липкая двухколонная пара — базовый приём M07 */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--sp-6);
+  align-items: start;
+}
+
+.split__aside { position: sticky; top: clamp(5rem, 12vh, 9rem); }
+
+@media (max-width: 900px) {
+  .split { grid-template-columns: 1fr; }
+  .split__aside { position: static; }
+}
+
+.stack > * + * { margin-top: var(--sp-4); }
+.cluster { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
