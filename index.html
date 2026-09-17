@@ -23,6 +23,7 @@
 
   <body>
     <div class="grain" aria-hidden="true"></div>
+    <aside class="dock" data-dock data-dock-base="" aria-label="Разделы курса"></aside>
 
     <!-- Preloader: счётчик блоков, затем выход сцены -->
     <div class="preloader" data-preloader role="status" aria-label="Загрузка курса">
@@ -134,6 +135,7 @@
             <ul>
               <li>Токены: цвет, шкала типов, пространство, длительности, кривые, z-слои.</li>
               <li>Один цикл <code class="inline">rAF</code> с delta-time для всех анимаций.</li>
+              <li>Сквозной док слева: 11 разделов, превью на наведении, стрелки и клавиши <code class="inline">[</code> <code class="inline">]</code>.</li>
               <li>Reveal по скроллу со стаггером, mask-reveal строк, magnetic, кастомный курсор.</li>
               <li>Прогресс по каждому разделу и чек-листы — всё в localStorage.</li>
               <li>Поддержка <code class="inline">prefers-reduced-motion</code> и клавиатуры.</li>

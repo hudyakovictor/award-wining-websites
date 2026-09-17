@@ -391,3 +391,172 @@ code.inline { font-family: var(--font-mono); font-size: 0.9em; color: var(--acce
   border-left: 2px solid var(--accent);
   border-radius: var(--r-md);
 }
+
+/* ============================================================
+   DOCK — сквозная навигация по 11 разделам с превью.
+   На широких экранах — левый рельс, на узких — нижняя полоса.
+   ============================================================ */
+
+.dock {
+  position: fixed;
+  /* рельс показываем только когда gutter ≥ 37px, иначе нижняя полоса */
+  left: var(--sp-2);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: var(--z-nav);
+  display: grid;
+  gap: 3px;
+  justify-items: start;
+}
+
+.dock__home {
+  display: grid;
+  place-items: center;
+  width: 1.75rem; height: 1.75rem;
+  margin-bottom: var(--sp-2);
+  border: var(--hair);
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--fg-1);
+  background: color-mix(in oklab, var(--ink-900) 85%, transparent);
+  transition: color var(--d-1), border-color var(--d-1), transform var(--d-1) var(--e-expo);
+}
+.dock__home:hover { color: var(--accent); border-color: var(--accent); transform: scale(1.08); }
+
+/* кольцо общего прогресса */
+.dock__ring {
+  --p: 0%;
+  width: 1.75rem; height: 1.75rem;
+  margin-bottom: var(--sp-2);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(var(--accent) var(--p), color-mix(in oklab, var(--fg-0) 12%, transparent) 0);
+}
+.dock__ring i {
+  width: 1.35rem; height: 1.35rem;
+  border-radius: 50%;
+  background: var(--ink-900);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.55rem;
+  color: var(--fg-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.dock__item { position: relative; }
+.dock__link {
+  display: grid;
+  place-items: center;
+  width: 1.75rem; height: 1.4rem;
+  border: var(--hair);
+  border-radius: var(--r-sm);
+  background: color-mix(in oklab, var(--ink-900) 82%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--fg-2);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--d-1), border-color var(--d-1), background var(--d-1),
+              transform var(--d-1) var(--e-expo);
+}
+.dock__link:hover { color: var(--fg-0); border-color: var(--fg-2); transform: translateX(3px); }
+.dock__item[data-active] .dock__link {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.dock__item[data-active] .dock__link:hover { transform: none; }
+.dock__item[data-complete] .dock__link::after {
+  content: '';
+  position: absolute;
+  top: -3px; right: -3px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 2px var(--ink-900);
+}
+
+/* превью раздела на наведении и фокусе с клавиатуры */
+.dock__preview {
+  position: absolute;
+  left: calc(100% + 0.6rem);
+  top: 50%;
+  width: 17rem;
+  padding: var(--sp-3);
+  display: grid;
+  gap: 0.3rem;
+  border: var(--hair);
+  border-radius: var(--r-md);
+  background: var(--ink-800);
+  box-shadow: var(--shadow-key);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(-8px, -50%, 0);
+  transition: opacity var(--d-1) var(--e-quart), transform var(--d-2) var(--e-expo), visibility var(--d-1);
+  pointer-events: none;
+}
+.dock__item:hover .dock__preview,
+.dock__item:focus-within .dock__preview {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, -50%, 0);
+}
+.dock__preview b {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: 400;
+  line-height: 1.15;
+}
+.dock__preview p { color: var(--fg-2); font-size: var(--fs-xs); line-height: 1.4; }
+.dock__preview .u-mono { font-size: 0.6rem; }
+
+.dock__nav { display: flex; gap: 3px; margin-top: var(--sp-2); }
+.dock__nav a,
+.dock__nav span {
+  display: grid;
+  place-items: center;
+  width: 1.75rem; height: 1.4rem;
+  border: var(--hair);
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--fg-1);
+  transition: color var(--d-1), border-color var(--d-1);
+}
+.dock__nav a:hover { color: var(--accent); border-color: var(--accent); }
+.dock__nav span { color: var(--fg-3); }
+
+.dock__hint { display: none; }
+
+/* ниже 1280px рельс не влезает в gutter — переезжаем вниз */
+@media (max-width: 1279px) {
+  .dock {
+    left: 0; right: 0;
+    top: auto; bottom: 0;
+    transform: none;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    justify-items: center;
+    align-items: center;
+    gap: 4px;
+    padding: var(--sp-2) var(--sp-3);
+    overflow-x: auto;
+    border-top: var(--hair);
+    background: color-mix(in oklab, var(--ink-900) 92%, transparent);
+    backdrop-filter: blur(12px);
+    scrollbar-width: none;
+  }
+  .dock::-webkit-scrollbar { display: none; }
+  .dock__home, .dock__ring { margin-bottom: 0; width: 1.8rem; height: 1.8rem; }
+  .dock__preview { display: none; }
+  .dock__nav { margin-top: 0; }
+  .dock__item[data-active] .dock__link { transform: none; }
+  body { padding-bottom: 4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dock__preview { transition: none; }
+}

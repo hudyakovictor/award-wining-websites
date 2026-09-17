@@ -79,6 +79,16 @@ console.log('\n[index.html]');
   assert(cards().filter((c) => !c.hidden).length === 11, 'после сброса поиска снова 11 разделов');
   assert(document.querySelector('[data-results]').hidden, 'панель результатов скрыта');
 
+  // сквозной док с превью разделов
+  const dockLinks = [...document.querySelectorAll('.dock .dock__link')];
+  assert(dockLinks.length === 11, `в доке ${dockLinks.length} разделов`);
+  assert(dockLinks.every((a, i) => a.getAttribute('href') === `sections/M${pad(i + 1)}.html`), 'ссылки дока ведут на sections/MXX.html');
+  assert(dockLinks.every((a) => a.closest('.dock__item').querySelector('.dock__preview b')), 'у каждого раздела есть превью с названием');
+  assert(document.querySelector('.dock__preview b').textContent === 'Фундамент и арт-дирекшн', 'в превью M01 — название раздела');
+  assert(document.querySelector('.dock__home').getAttribute('href') === 'index.html', 'кнопка «на главную» в доке');
+  const homeNav = [...document.querySelectorAll('.dock__nav a')].map((a) => a.getAttribute('href'));
+  assert(homeNav.length === 1 && homeNav[0] === 'sections/M01.html', 'на главной стрелка «→» открывает первый раздел');
+
   // прогресс раздела считается из тех же данных
   click(document.querySelector('[data-reset]'));
   assert(document.querySelector('[data-stat-done]').textContent === '00', 'сброс прогресса → 00');
@@ -122,6 +132,18 @@ console.log('\n[sections/M06.html]');
   // пейджер по разделам
   const pager = [...document.querySelectorAll('.pager a')].map((a) => a.getAttribute('href'));
   assert(pager.includes('M05.html') && pager.includes('M07.html'), 'пейджер ведёт на M05 и M07');
+
+  // док: активный раздел и стрелки
+  const activeItem = document.querySelector('.dock__item[data-active]');
+  assert(activeItem?.querySelector('.dock__link').getAttribute('href') === '../sections/M06.html', 'в доке подсвечен M06');
+  assert(activeItem?.querySelector('.dock__link').getAttribute('aria-current') === 'true', 'у активного раздела aria-current');
+  assert(activeItem?.querySelector('.dock__item, .dock__preview') && activeItem.querySelector('.dock__preview').textContent.includes('Motion'), 'превью активного раздела показывает Motion');
+  const sectionDock = [...document.querySelectorAll('.dock .dock__link')];
+  assert(sectionDock.length === 11, 'в доке 11 разделов');
+  assert(sectionDock.every((a) => a.getAttribute('href').startsWith('../sections/')), 'ссылки дока с префиксом ../');
+  const nav = [...document.querySelectorAll('.dock__nav a')].map((a) => a.getAttribute('href'));
+  assert(nav.includes('../sections/M05.html') && nav.includes('../sections/M07.html'), 'стрелки дока ведут на M05 и M07');
+  assert(document.querySelector('.dock__item[data-complete]') === null, 'раздел не помечен закрытым, пока пройден 1 блок из 9');
 }
 
 /* ---------- страница блока ---------- */
@@ -137,6 +159,8 @@ console.log('\n[blocks/lesson.html?block=46]');
   assert(document.querySelector('[data-l-module]').textContent.startsWith('M06'), `раздел = ${moduleOf(46).id}`);
   assert(document.querySelector('[data-l-section]').getAttribute('href') === '../sections/M06.html', 'кнопка «к разделу» ведёт на sections/M06.html');
   assert(document.querySelectorAll('[data-crumbs] a').length === 11, 'в крошках 11 разделов');
+  assert(document.body.dataset.section === 'M06', 'body[data-section] выставлен из блока');
+  assert(document.querySelector('.dock__item[data-active] .dock__link')?.getAttribute('href') === '../sections/M06.html', 'док на уроке подсвечивает свой раздел');
   const expected = CHECKLIST[b.tag].length;
   assert(document.querySelectorAll('[data-checklist] label').length === expected, `чек-лист «${b.tag}»: ${expected} пунктов`);
   assert(document.querySelector('[data-pager] a[href="lesson.html?block=47"]') !== null, 'пейджер ведёт на блок 47');

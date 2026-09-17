@@ -7,6 +7,7 @@ import { initReveal } from './core/reveal.js';
 import { initSplits } from './core/split.js';
 import { initMagnetic } from './core/magnetic.js';
 import { initScroll } from './core/scroll.js';
+import { initDock } from './core/dock.js';
 import { initCursor } from './core/cursor.js';
 import { isDone, toggleDone } from './core/state.js';
 
@@ -57,6 +58,7 @@ document.addEventListener('click', (e) => {
 
 if (!mod) console.warn(`раздел ${id} не найден в plan.js`);
 initScroll();
+initDock();
 paint();
 initSplits();
 initReveal();

@@ -50,6 +50,8 @@ for (const m of MODULES) {
     continue;
   }
   const html = read(rel);
+  if (!html.includes('data-dock')) errors.push(`${rel}: нет сквозного дока`);
+  if (!html.includes('data-dock-base="../"')) errors.push(`${rel}: у дока неверный base`);
   const blocks = BLOCKS.filter((b) => b.id >= m.from && b.id <= m.to);
   if (html.includes('{{')) errors.push(`${rel}: остались токены шаблона`);
   if (!html.includes(`data-section="${m.id}"`)) errors.push(`${rel}: нет data-section`);
@@ -74,6 +76,12 @@ for (const page of pages) {
   }
 }
 ok.push(`${pages.length} страниц: ${checked} локальных ссылок ведут на существующие файлы`);
+
+// --- док на всех страницах ---
+for (const page of ['index.html', 'blocks/lesson.html']) {
+  if (!read(page).includes('data-dock')) errors.push(`${page}: нет сквозного дока`);
+}
+ok.push('док есть на главной, в разделах и на странице блока');
 
 // --- шаблон урока содержит все точки подстановки ---
 const lesson = read('blocks/lesson.html');

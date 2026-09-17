@@ -7,6 +7,7 @@ import { initReveal } from './core/reveal.js';
 import { initSplits } from './core/split.js';
 import { initMagnetic } from './core/magnetic.js';
 import { initScroll } from './core/scroll.js';
+import { initDock } from './core/dock.js';
 import { initCursor } from './core/cursor.js';
 import { isDone, toggleDone, isChecked, toggleCheck } from './core/state.js';
 import { mount as mountMotionLab } from '../../demos/motion-lab.js';
@@ -99,7 +100,9 @@ const boot = () => {
   const stage = document.querySelector('[data-stage-inner]');
   if (stage) mountMotionLab(stage);
 
+  document.body.dataset.section = mod.id; // док подсвечивает свой раздел
   initScroll();
+  initDock();
   initSplits();
   initReveal();
   initMagnetic();

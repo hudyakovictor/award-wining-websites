@@ -9,6 +9,7 @@ import { initMagnetic } from './core/magnetic.js';
 import { initReveal } from './core/reveal.js';
 import { initSplits } from './core/split.js';
 import { initScroll } from './core/scroll.js';
+import { initDock } from './core/dock.js';
 import { isDone, progress, reset, subscribe } from './core/state.js';
 
 let query = '';
@@ -144,6 +145,7 @@ const renderMarquee = () => {
 /* ---------- boot ---------- */
 const init = async () => {
   initScroll();
+  initDock();
   renderSections();
   renderMarquee();
   syncProgress();
